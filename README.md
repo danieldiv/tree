@@ -29,3 +29,7 @@ Daniel Alves Sanches - 4º Periodo - AEDS II
 - Apóz a execução do comando make run, irá mostrar os elementos a serem adicionados na árvore. Em seguida será impresso o caminhamento pré-ordem, central e pós-orem.
 
 - Em seguida será apresentado 10 palavras a serem pesquisadas na arvore, além de contabilizar a quantidade de acessos em uma arvore e em um vetor comum.
+
+## Observação
+
+- Não consegui implementar um método para reduzir o consumo de RAM
