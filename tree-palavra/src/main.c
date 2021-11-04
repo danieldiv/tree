@@ -80,24 +80,24 @@ int main() {
 	printf("\nQuantidade de acessos no vetor: %d\n", quantVetor);
 	printf("Quantidade de acessos medio no vetor: %d\n", (quantVetor / tamBusca));
 
-	int buscaKey [10] = {1, 4, 31, 8, 9, 14, 6, 16, 23, 10};
+	// int buscaKey [10] = {1, 4, 31, 8, 9, 14, 6, 16, 23, 10};
 
-	printf("\n===============================\n");
-	printf("\nPESQUISANDO PELA KEY: { ");
+	// printf("\n===============================\n");
+	// printf("\nPESQUISANDO PELA KEY: { ");
 
 
-	quantArvore = 0;
-	quantVetor = 0;
+	// quantArvore = 0;
+	// quantVetor = 0;
 
-	for(int i=0; i < 10; i++) {
-		printf("%d ", buscaKey[i]);
-	}
-	printf("}\n\n");
+	// for(int i=0; i < 10; i++) {
+	// 	printf("%d ", buscaKey[i]);
+	// }
+	// printf("}\n\n");
 
-	for(int i=0; i < 10; i++) {
-		r.key = buscaKey[i];
-		pesquisaKey(&raiz, &aux, r, &quantArvore);
-	}
+	// for(int i=0; i < 10; i++) {
+	// 	r.key = buscaKey[i];
+	// 	pesquisaKey(&raiz, &aux, r, &quantArvore);
+	// }
 
 	// for(int i=0; i < 10; i++) {
 	// 	for(int j=0; j < tamNome; j++) {
