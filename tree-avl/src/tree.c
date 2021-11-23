@@ -4,37 +4,6 @@ Tree* createTree() {
 	return NULL;
 }
 
-void rebalanceTree(Tree **t) {
-	int balance;
-	int left = 0;
-	int right = 0;
-
-	balance = getPeso(&(*t)->esq) - getPeso(&(*t)->dir);
-	
-	// printf("\nt ori: %d\n", (*t)->reg.key);
-	// printf("\nPeso esq: %d:%d\n", (*t)->esq->reg.key, (*t)->esq->peso);
-	// printf("Peso dir: %d:%d\n", (*t)->dir->reg.key, (*t)->dir->peso);
-
-	if((*t)->esq)
-		left = getPeso(&(*t)->esq->esq) - getPeso(&(*t)->esq->dir);
-	if((*t)->dir)
-		right = getPeso(&(*t)->dir->esq) - getPeso(&(*t)->dir->dir);
-
-	// printf("\n============Valores balanceamento=========\n");
-	// printf("Raiz: %d, Filho esq: %d, Filho dir: %d\n", balance, left, right);
-	// printf("==========================================");
-
-	if(balance == 2 && left >= 0)
-		rotacaoSimplesDireita(t);
-	if(balance == 2 && left < 0)
-		rotacaoDuplaDireita(t);
-
-	if(balance == -2 && right >= 0)
-		rotacaoDuplaEsquerda(t);
-	if(balance == -2 && right < 0)
-		rotacaoSimplesEsquerda(t);
-}
-
 void rotacaoSimplesDireita(Tree **t) {
 	Tree *aux;
 
@@ -42,11 +11,17 @@ void rotacaoSimplesDireita(Tree **t) {
 	printf("t: %d\n", (*t)->reg.key);
 	printf("t->esq: %d\n", (*t)->esq->reg.key);
 
+	printf("1\n");
 	aux = (*t)->esq;
+	printf("2\n");
 	(*t)->esq = aux->dir;
+	printf("3\n");
 	aux->dir = (*t);
+	printf("4\n");
 	(*t)->peso = getMaxPeso( getPeso( &(*t)->esq ), getPeso( &(*t)->dir ) ) + 1;
+	printf("5\n");
 	aux->peso = getMaxPeso( getPeso( &(*t)->esq ), (*t)->peso ) + 1;
+	printf("6\n");
 	(*t) = aux;
 }
 
@@ -99,9 +74,6 @@ void insertItem(Tree **t, Record r) {
 
 			if(getPeso( &(*t)->esq) - getPeso(&(*t)->dir) == 2) {
 				printf("rot D a\n");
-
-				// int valor = (r.key < (*t)->esq->reg.key);
-				// printf("valor: %d\n", valor);
 
 				if(r.key < (*t)->esq->reg.key) {
 					printf("rot S D b\n");
@@ -182,6 +154,41 @@ void antecessor(Tree **t, Tree *aux) {
 	free(aux);
 }
 
+void rebalanceTree(Tree **t) {
+
+	if((*t) != NULL) {
+		printf("O valor e %d\n", (*t)->reg.key);
+
+		int balance;
+		int left = 0;
+		int right = 0;
+
+		balance = getPeso(&(*t)->esq) - getPeso(&(*t)->dir);
+		
+		if((*t)->esq)
+			left = getPeso(&(*t)->esq->esq) - getPeso(&(*t)->esq->dir);
+		if((*t)->dir)
+			right = getPeso(&(*t)->dir->esq) - getPeso(&(*t)->dir->dir);
+
+		printf("\n============Valores balanceamento=========\n");
+		printf("Raiz: %d, Filho esq: %d, Filho dir: %d\n", balance, left, right);
+		printf("==========================================");
+
+		if(balance == 2 && left >= 0) {
+			printf("\n\nkey: %d\n", (*t)->reg.key);
+			rotacaoSimplesDireita(t);
+		}
+			
+		if(balance == 2 && left < 0)
+			rotacaoDuplaDireita(t);
+
+		if(balance == -2 && right >= 0)
+			rotacaoDuplaEsquerda(t);
+		if(balance == -2 && right < 0)
+			rotacaoSimplesEsquerda(t);
+	}
+}
+
 void removeItem(Tree **t, Tree **f, Record r) {
 	Tree *aux;
 
@@ -190,27 +197,57 @@ void removeItem(Tree **t, Tree **f, Record r) {
 		return;
 	}
 
-	if((*t)->reg.key > r.key) { removeItem(&(*t)->esq, t, r); return; }
-	if((*t)->reg.key < r.key) { removeItem(&(*t)->dir, t, r); return; }
+	if(r.key < (*t)->reg.key) { removeItem(&(*t)->esq, t, r); return; }
+	if(r.key > (*t)->reg.key) { removeItem(&(*t)->dir, t, r); return; }
 
 	if((*t)->dir == NULL) {
 		aux = *t;
 		*t = (*t)->esq;
 		free(aux);
-		rebalanceTree(f);
+
+		// if((*f) != NULL)
+			printf("valor de f: %d\n", (*f)->reg.key);
+			printf("valor de f esq: %d\n", (*f)->esq->reg.key);
+			printf("valor de f dir: %d\n", (*f)->dir->reg.key);
+			rebalanceTree(f);
+		// else
+		// 	printf("ponteiro f eh nulo\n");
+
+		// if((*t) != NULL)
+			rebalanceTree(t);
+		// else
+		// 	printf("ponteiro t eh nulo\n");
 		return;
 	}
 
 	if((*t)->esq != NULL) {
 		antecessor(&(*t)->esq, *t);
-		rebalanceTree(f);
+		
+		// if((*f) != NULL)
+			rebalanceTree(f);
+		// else
+		// 	printf("ponteiro f eh nulo\n");
+
+		// if((*t) != NULL)
+			rebalanceTree(t);
+		// else
+		// 	printf("ponteiro t eh nulo\n");
 		return;
 	}
 
 	aux = *t;
 	*t = (*t)->dir;
 	free(aux);
-	rebalanceTree(f);
+	
+	// if((*f) != NULL)
+		rebalanceTree(f);
+	// else
+	// 	printf("ponteiro f eh nulo\n");
+
+	// if((*t) != NULL)
+		rebalanceTree(t);
+	// else
+	// 	printf("ponteiro t eh nulo\n");
 }
 
 void preordem(Tree *t) {
