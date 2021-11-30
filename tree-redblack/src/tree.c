@@ -10,8 +10,8 @@ void rotacaoSimplesDireita(Tree **t) {
 	aux = (*t)->esq;
 	(*t)->esq = aux->dir;
 	aux->dir = (*t);
-	(*t)->peso = getMaxPeso( getPeso( &(*t)->esq ), getPeso( &(*t)->dir ) ) + 1;
-	aux->peso = getMaxPeso( getPeso( &(*t)->esq ), (*t)->peso ) + 1;
+	// (*t)->peso = getMaxPeso( getPeso( &(*t)->esq ), getPeso( &(*t)->dir ) ) + 1;
+	// aux->peso = getMaxPeso( getPeso( &(*t)->esq ), (*t)->peso ) + 1;
 	(*t) = aux;
 }
 
@@ -21,20 +21,20 @@ void rotacaoSimplesEsquerda(Tree **t) {
 	aux = (*t)->dir;
 	(*t)->dir = aux->esq;
 	aux->esq = (*t);
-	(*t)->peso = getMaxPeso( getPeso( &(*t)->esq ), getPeso( &(*t)->dir ) ) + 1;
-	aux->peso = getMaxPeso( getPeso( &(*t)->esq ), (*t)->peso ) + 1;
+	// (*t)->peso = getMaxPeso( getPeso( &(*t)->esq ), getPeso( &(*t)->dir ) ) + 1;
+	// aux->peso = getMaxPeso( getPeso( &(*t)->esq ), (*t)->peso ) + 1;
 	(*t) = aux;
 }
 
-void rotacaoDuplaDireita(Tree **t) {
-	rotacaoSimplesEsquerda(&(*t)->esq);
-	rotacaoSimplesDireita(t);
-}
+// void rotacaoDuplaDireita(Tree **t) {
+// 	rotacaoSimplesEsquerda(&(*t)->esq);
+// 	rotacaoSimplesDireita(t);
+// }
 
-void rotacaoDuplaEsquerda(Tree **t) {
-	rotacaoSimplesDireita(&(*t)->dir);
-	rotacaoSimplesEsquerda(t);
-}
+// void rotacaoDuplaEsquerda(Tree **t) {
+// 	rotacaoSimplesDireita(&(*t)->dir);
+// 	rotacaoSimplesEsquerda(t);
+// }
 
 void insertItem(Tree **t, Record r) {
 	if(*t == NULL) {
@@ -42,47 +42,47 @@ void insertItem(Tree **t, Record r) {
 		(*t)->esq = NULL;
 		(*t)->dir = NULL;
 		(*t)->reg = r;
-		(*t)->peso = 0;
+		// (*t)->peso = 0;
 	} else {
 		
 
 		if(r.key < (*t)->reg.key) {
 			insertItem(&(*t)->esq, r);
 
-			if(getPeso( &(*t)->esq) - getPeso(&(*t)->dir) == 2) {
-				if(r.key < (*t)->esq->reg.key)
-					rotacaoSimplesDireita(t);
-				else 
-					rotacaoDuplaDireita(t);
-			}
+			// if(getPeso( &(*t)->esq) - getPeso(&(*t)->dir) == 2) {
+			// 	if(r.key < (*t)->esq->reg.key)
+			// 		rotacaoSimplesDireita(t);
+				// else 
+				// 	rotacaoDuplaDireita(t);
+			// }
 		}
 
 		if(r.key > (*t)->reg.key) {
 			insertItem(&(*t)->dir, r);
 
-			if(getPeso( &(*t)->dir) - getPeso(&(*t)->esq) == 2) {
-				if(r.key > (*t)->dir->reg.key)
-					rotacaoSimplesEsquerda(t);
-				else
-					rotacaoDuplaEsquerda(t);
-			}
+			// if(getPeso( &(*t)->dir) - getPeso(&(*t)->esq) == 2) {
+			// 	if(r.key > (*t)->dir->reg.key)
+			// 		rotacaoSimplesEsquerda(t);
+				// else
+				// 	rotacaoDuplaEsquerda(t);
+			// }
 		}
 	}
-	(*t)->peso = getMaxPeso( getPeso( &(*t)->esq ), getPeso( &(*t)->dir ) ) + 1;
+	// (*t)->peso = getMaxPeso( getPeso( &(*t)->esq ), getPeso( &(*t)->dir ) ) + 1;
 
 }
 
-int getPeso(Tree **t) {
-	if(*t == NULL)
-		return -1;
-	return (*t)->peso;
-}
+// int getPeso(Tree **t) {
+// 	if(*t == NULL)
+// 		return -1;
+// 	return (*t)->peso;
+// }
 
-int getMaxPeso(int left, int right) {
-	if(left > right)
-		return left;
-	return right;
-}
+// int getMaxPeso(int left, int right) {
+// 	if(left > right)
+// 		return left;
+// 	return right;
+// }
 
 void pesquisa(Tree **t, Tree **aux, Record r) {
 	if(*t == NULL) {
@@ -102,27 +102,27 @@ void rebalanceTree(Tree **t) {
 	int left = 0;
 	int right = 0;
 
-	balance = getPeso(&(*t)->esq) - getPeso(&(*t)->dir);
+	// balance = getPeso(&(*t)->esq) - getPeso(&(*t)->dir);
 	
-	if((*t)->esq)
-		left = getPeso(&(*t)->esq->esq) - getPeso(&(*t)->esq->dir);
-	if((*t)->dir)
-		right = getPeso(&(*t)->dir->esq) - getPeso(&(*t)->dir->dir);
+	// if((*t)->esq)
+	// 	left = getPeso(&(*t)->esq->esq) - getPeso(&(*t)->esq->dir);
+	// if((*t)->dir)
+	// 	right = getPeso(&(*t)->dir->esq) - getPeso(&(*t)->dir->dir);
 
 	// printf("\n============Valores balanceamento=========\n");
 	// printf("Raiz: %d, Filho esq: %d, Filho dir: %d\n", balance, left, right);
 	// printf("==========================================");
 
-	if(balance == 2 && left >= 0)
-		rotacaoSimplesDireita(t);
+	// if(balance == 2 && left >= 0)
+	// 	rotacaoSimplesDireita(t);
 		
-	if(balance == 2 && left < 0)
-		rotacaoDuplaDireita(t);
+	// if(balance == 2 && left < 0)
+	// 	rotacaoDuplaDireita(t);
 
-	if(balance == -2 && right <= 0)
-		rotacaoDuplaEsquerda(t);
-	if(balance == -2 && right > 0)
-		rotacaoSimplesEsquerda(t);
+	// if(balance == -2 && right <= 0)
+	// 	rotacaoDuplaEsquerda(t);
+	// if(balance == -2 && right > 0)
+	// 	rotacaoSimplesEsquerda(t);
 }
 
 void antecessor(Tree **t, Tree *aux) {
