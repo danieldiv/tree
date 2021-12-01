@@ -99,7 +99,7 @@ int main() {
 
 	for(int i=0; i < tam; i++) {
 		r.key = vetor[i];
-		insertItem(&raiz, &raiz, r);
+		insertItem(&raiz, &raiz, NULL, r);
 	}
 
 	printf("\nPRE ORDEN: { ");

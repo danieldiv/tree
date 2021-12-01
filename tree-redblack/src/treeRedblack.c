@@ -36,7 +36,7 @@ void rotacaoSimplesEsquerda(Tree **t) {
 // 	rotacaoSimplesEsquerda(t);
 // }
 
-void insertItem(Tree **t, Tree **p, Record r) {
+void insertItem(Tree **t, Tree **p, Tree *item, Record r) {
 	if(*t == NULL) {
 		*t = (Tree*)malloc(sizeof(Tree));
 		(*t)->esq = NULL;
@@ -55,10 +55,10 @@ void insertItem(Tree **t, Tree **p, Record r) {
 		Tree *pai = (*t);
 		Tree *avo = createTree();
 		Tree *tio = createTree();
-		Tree *item = createTree();
+		// Tree *item = createTree();
 
 		if(r.key < pai->reg.key) {
-			insertItem(&pai->esq, t, r);
+			insertItem(&pai->esq, t, item, r);
 			
 			
 			item = pai->esq;
@@ -81,16 +81,18 @@ void insertItem(Tree **t, Tree **p, Record r) {
 					item = avo;
 				} else if(item->reg.key < pai->reg.key) {
 					item = pai;
+					printf("valor de p esq: %d\n", (*p)->reg.key);
 					rotacaoSimplesEsquerda(p);
 				}
 				pai->cor = false;
 				avo->cor = true;
+
 				// rotacaoSimplesDireita(p);
 			}
 		}
 
 		if(r.key > pai->reg.key) {
-			insertItem(&pai->dir, t, r);
+			insertItem(&pai->dir, t, item, r);
 			item = pai->dir;
 
 			if(pai->pai != NULL) {
