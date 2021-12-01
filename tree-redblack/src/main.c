@@ -108,7 +108,7 @@ int main() {
 	// printf("}\n\nCENTRAL: {\n");
 	// central(raiz);
 
-	printf("}\nPOS ORDEN: { ");
+	printf("}\n\nPOS ORDEN: { ");
 	posordem(raiz);
 	printf("}\n");
 

@@ -16,7 +16,6 @@ struct Record {
 struct Tree {
 	Record reg;
 	Tree *esq, *dir;
-	// int peso;
 	Tree *pai;
 	bool cor; // 1 - vermelho | 0 - preto
 };
@@ -27,18 +26,12 @@ void pesquisa(Tree **t, Tree **aux, Record r);
 
 void antecessor(Tree **t, Tree *aux);
 void removeItem(Tree **t, Tree **f, Record r);
-// void rebalanceTree(Tree **t);
 
 void preordem(Tree *t);
 void central(Tree *t);
 void posordem(Tree *t);
 
-// int getPeso(Tree **t);
-// int getMaxPeso(int left, int right);
-
 void rotacaoSimplesDireita(Tree **t);
 void rotacaoSimplesEsquerda(Tree **t);
-// void rotacaoDuplaDireita(Tree **t);
-// void rotacaoDuplaEsquerda(Tree **t);
 
 #endif
