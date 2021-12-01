@@ -18,10 +18,11 @@ struct Tree {
 	Tree *esq, *dir;
 	Tree *pai;
 	bool cor; // 1 - vermelho | 0 - preto
+	bool isRaiz;
 };
 
 Tree* createTree();
-void insertItem(Tree **t, Tree **p, Tree *item, Record r);
+void insertItem(Tree **t, Tree **p, Record r);
 void pesquisa(Tree **t, Tree **aux, Record r);
 
 void antecessor(Tree **t, Tree *aux);

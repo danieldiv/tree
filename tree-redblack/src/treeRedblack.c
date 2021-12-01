@@ -10,8 +10,6 @@ void rotacaoSimplesDireita(Tree **t) {
 	aux = (*t)->esq;
 	(*t)->esq = aux->dir;
 	aux->dir = (*t);
-	// (*t)->peso = getMaxPeso( getPeso( &(*t)->esq ), getPeso( &(*t)->dir ) ) + 1;
-	// aux->peso = getMaxPeso( getPeso( &(*t)->esq ), (*t)->peso ) + 1;
 	(*t) = aux;
 }
 
@@ -21,22 +19,10 @@ void rotacaoSimplesEsquerda(Tree **t) {
 	aux = (*t)->dir;
 	(*t)->dir = aux->esq;
 	aux->esq = (*t);
-	// (*t)->peso = getMaxPeso( getPeso( &(*t)->esq ), getPeso( &(*t)->dir ) ) + 1;
-	// aux->peso = getMaxPeso( getPeso( &(*t)->esq ), (*t)->peso ) + 1;
 	(*t) = aux;
 }
 
-// void rotacaoDuplaDireita(Tree **t) {
-// 	rotacaoSimplesEsquerda(&(*t)->esq);
-// 	rotacaoSimplesDireita(t);
-// }
-
-// void rotacaoDuplaEsquerda(Tree **t) {
-// 	rotacaoSimplesDireita(&(*t)->dir);
-// 	rotacaoSimplesEsquerda(t);
-// }
-
-void insertItem(Tree **t, Tree **p, Tree *item, Record r) {
+void insertItem(Tree **t, Tree **p, Record r) {
 	if(*t == NULL) {
 		*t = (Tree*)malloc(sizeof(Tree));
 		(*t)->esq = NULL;
@@ -46,90 +32,90 @@ void insertItem(Tree **t, Tree **p, Tree *item, Record r) {
 		if((*p)->reg.key == r.key) {
 			(*t)->pai = createTree();
 			(*t)->cor = false;
+			(*t)->isRaiz = true;
 		} else {
 			(*t)->pai = *p;
 			(*t)->cor = true;
+			(*t)->isRaiz = false;
 		}
-
 	} else {
 		Tree *pai = (*t);
 		Tree *avo = createTree();
 		Tree *tio = createTree();
-		// Tree *item = createTree();
+		Tree *item = createTree();
 
-		if(r.key < pai->reg.key) {
-			insertItem(&pai->esq, t, item, r);
-			
-			
+		if(r.key < (*t)->reg.key) {
+			insertItem(&(*t)->esq, t, r);
 			item = pai->esq;
-				
-
-			if(pai->pai != NULL) {
-				avo = pai->pai;
-
-				if(avo->dir != NULL && avo->dir->reg.key != pai->reg.key)
-					tio = avo->dir;
-				else if(avo->esq != NULL && avo->esq->reg.key != pai->reg.key)
-					tio = avo->esq;
-			}
-
-			if(tio) {
-				if(tio->cor) {
-					pai->cor = false;
-					tio->cor = false;
-					avo->cor = true;
-					item = avo;
-				} else if(item->reg.key < pai->reg.key) {
-					item = pai;
-					printf("valor de p esq: %d\n", (*p)->reg.key);
-					rotacaoSimplesEsquerda(p);
-				}
-				pai->cor = false;
-				avo->cor = true;
-
-				// rotacaoSimplesDireita(p);
-			}
 		}
 
-		if(r.key > pai->reg.key) {
-			insertItem(&pai->dir, t, item, r);
+		if(r.key > (*t)->reg.key) {
+			insertItem(&(*t)->dir, t, r);
 			item = pai->dir;
+		}
 
-			if(pai->pai != NULL) {
+		while(item != pai && pai->cor && !pai->isRaiz) {
+			if(pai->pai != NULL)
 				avo = pai->pai;
 
-				if(avo->dir != NULL && avo->dir->reg.key != pai->reg.key)
-					tio = avo->dir;
-				else if(avo->esq != NULL && avo->esq->reg.key != pai->reg.key)
-					tio = avo->esq;
-			}
+			if(avo != NULL)
+				printf("avo: %d\n", avo->reg.key);
+			if(pai != NULL)
+				printf("pai: %d\n", pai->reg.key);
+			printf("item: %d\n\n", item->reg.key);
 
-			if(tio) {
-				if(tio->cor) {
-					pai->cor = false;
-					tio->cor = false;
-					avo->cor = true;
-					item = avo;
-				} else if(item->reg.key < pai->reg.key) {
-					item = pai;
-					rotacaoSimplesDireita(p);
+			if(pai != NULL) {
+				// system("read -p \"\npai nao eh nulo\" continue");
+				if(avo != NULL) {
+					// system("read -p \"\navo nao eh nulo\" continue");
+					if(pai->reg.key < avo->reg.key) {
+						tio = avo->dir;
+						// system("read -p \"\npai eh menor do que avo\" continue");
+						printf("tio: %d\n", tio->reg.key);
+
+						if(tio) {
+							if(tio->cor) {
+								// system("read -p \"\nEntrou no tio\" continue");
+								pai->cor = false;
+								tio->cor = false;
+								avo->cor = true;
+								item = avo;
+							} else if(item->reg.key > pai->reg.key) {
+								item = pai;
+								system("read -p \"\nRotacao simples esquerda dentro\" continue");
+								rotacaoSimplesEsquerda(t);
+							}
+							pai->cor = false;
+							avo->cor = true;
+
+							system("read -p \"\nRotacao simples direita fora\" continue");
+							// rotacaoSimplesDireita(t);
+						}
+					} else {
+						// system("read -p \"\npai eh maior do que avo\" continue");
+						tio = avo->esq;
+						if(tio) {
+							if(tio->cor) {
+								// system("read -p \"\nEntrou no tio\" continue");
+								pai->cor = false;
+								tio->cor = false;
+								avo->cor = true;
+								item = avo;
+							} else if(item->reg.key > pai->reg.key) {
+								item = pai;
+								system("read -p \"\nRotacao simples direita dentro\" continue");
+								rotacaoSimplesDireita(t);
+							}
+							pai->cor = false;
+							avo->cor = true;
+
+							system("read -p \"\nRotacao simples esquerda fora\" continue");
+							// rotacaoSimplesEsquerda(t);
+						}	
+					}
 				}
-				pai->cor = false;
-				avo->cor = true;
-				// rotacaoSimplesEsquerda(p);
 			}
 		}
-
-		
-
-		printf("(%d)-(%d)", item->reg.key, pai->reg.key);
-
-		if(avo != NULL) {
-			if(tio != NULL) {
-				printf("-(*%d*)-(%d)", avo->reg.key, tio->reg.key);
-			}
-		}
-		printf("\n");
 	}
 }
 
