@@ -122,14 +122,14 @@ void insertItem(Tree **t, Tree **p, Tree *item, Record r) {
 
 		
 
-		// printf("(%d)-(%d)", item->reg.key, pai->reg.key);
+		printf("(%d)-(%d)", item->reg.key, pai->reg.key);
 
-		// if(avo != NULL) {
-		// 	if(tio != NULL) {
-		// 		printf("-(*%d*)-(%d)", avo->reg.key, tio->reg.key);
-		// 	}
-		// }
-		// printf("\n");
+		if(avo != NULL) {
+			if(tio != NULL) {
+				printf("-(*%d*)-(%d)", avo->reg.key, tio->reg.key);
+			}
+		}
+		printf("\n");
 	}
 }
 
