@@ -1,4 +1,4 @@
-#include "tree.h"
+#include "treeRedblack.h"
 
 Tree* createTree() {
 	return NULL;
@@ -36,18 +36,65 @@ void rotacaoSimplesEsquerda(Tree **t) {
 // 	rotacaoSimplesEsquerda(t);
 // }
 
-void insertItem(Tree **t, Record r) {
+void insertItem(Tree **t, Tree **p, Record r) {
 	if(*t == NULL) {
 		*t = (Tree*)malloc(sizeof(Tree));
 		(*t)->esq = NULL;
 		(*t)->dir = NULL;
 		(*t)->reg = r;
+
+		if((*p)->reg.key == r.key) {
+			(*t)->pai = createTree();
+			(*t)->cor = false;
+		} else {
+			(*t)->pai = *p;
+			(*t)->cor = true;
+		}
+			
+		// }
 		// (*t)->peso = 0;
 	} else {
-		
+		Tree *pai = createTree();
+		Tree *avo = createTree();
+		Tree *tio = createTree();
+
+		// if(t->pai != NULL) {
+		// 	printf(" - (pai: %d) ", t->pai->reg.key);
+
+		// 	if(t->pai->pai != NULL) {
+		// 		printf(" - (pai-pai: %d)", t->pai->pai->reg.key);
+
+		// 		if(t->pai->pai->dir != NULL && t->pai->pai->dir->reg.key != t->pai->reg.key)
+		// 			printf(" - (tio: %d)", t->pai->pai->dir->reg.key);
+		// 		else if(t->pai->pai->esq != NULL && t->pai->pai->esq->reg.key != t->pai->reg.key)
+		// 			printf(" - (tio: %d)", t->pai->pai->esq->reg.key);
+		// 	}
+		// }
 
 		if(r.key < (*t)->reg.key) {
-			insertItem(&(*t)->esq, r);
+			pai = (*t);
+
+			insertItem(&(*t)->esq, t, r);
+
+			// if(pai->pai != NULL) {
+			// 	avo = pai->pai;
+
+			// 	if(avo->dir != NULL && avo->dir->reg.key != pai->reg.key)
+			// 		tio = avo->dir;
+			// 	else if(avo->esq != NULL && avo->esq->reg.key != pai->reg.key)
+			// 		tio = avo->esq;
+					
+			// }
+
+			printf("E: (%d)-(%d)", (*t)->esq->reg.key, pai->reg.key);
+
+			
+			
+			// if(tio != NULL)
+			// 	printf("-(%d)", tio->reg.key);
+			// printf("\n");
+			
+			// printf("E: (%d)-(%d)\n", (*t)->esq->reg.key, (*t)->reg.key);
 
 			// if(getPeso( &(*t)->esq) - getPeso(&(*t)->dir) == 2) {
 			// 	if(r.key < (*t)->esq->reg.key)
@@ -58,7 +105,31 @@ void insertItem(Tree **t, Record r) {
 		}
 
 		if(r.key > (*t)->reg.key) {
-			insertItem(&(*t)->dir, r);
+			pai = (*t);
+
+			// if(pai->dir != NULL)
+			// 	tio = pai->dir;
+			// else if(pai->esq != NULL)
+			// 	tio = pai->esq;
+			// else
+			// 	tio = NULL;
+
+			// if(pai->pai != NULL) {
+			// 	avo = pai->pai;
+
+			// 	if(avo->dir != NULL && avo->dir->reg.key != pai->reg.key)
+			// 		tio = avo->dir;
+			// 	else if(avo->esq != NULL && avo->esq->reg.key != pai->reg.key)
+			// 		tio = avo->esq;
+					
+			// }
+
+			insertItem(&(*t)->dir, t, r);
+			printf("D: (%d)-(%d)", (*t)->dir->reg.key, pai->reg.key);
+
+			// if(tio != NULL)
+			// 	printf("-(%d)", tio->reg.key);
+			// printf("\n");
 
 			// if(getPeso( &(*t)->dir) - getPeso(&(*t)->esq) == 2) {
 			// 	if(r.key > (*t)->dir->reg.key)
@@ -67,6 +138,28 @@ void insertItem(Tree **t, Record r) {
 				// 	rotacaoDuplaEsquerda(t);
 			// }
 		}
+
+		if(pai->pai != NULL) {
+				avo = pai->pai;
+
+				if(avo->dir != NULL && avo->dir->reg.key != pai->reg.key)
+					tio = avo->dir;
+				else if(avo->esq != NULL && avo->esq->reg.key != pai->reg.key)
+					tio = avo->esq;
+					
+			}
+
+		if(avo != NULL) {
+			if(tio != NULL) {
+				printf("-(*%d*)-(%d)", avo->reg.key, tio->reg.key);
+			}
+		}
+		printf("\n");
+		
+		// printf("tio: %d\n", (*p)->reg.key);
+			
+
+
 	}
 	// (*t)->peso = getMaxPeso( getPeso( &(*t)->esq ), getPeso( &(*t)->dir ) ) + 1;
 
@@ -96,11 +189,11 @@ void pesquisa(Tree **t, Tree **aux, Record r) {
 	*aux = *t;
 }
 
-void rebalanceTree(Tree **t) {
+// void rebalanceTree(Tree **t) {
 
-	int balance;
-	int left = 0;
-	int right = 0;
+// 	int balance;
+// 	int left = 0;
+// 	int right = 0;
 
 	// balance = getPeso(&(*t)->esq) - getPeso(&(*t)->dir);
 	
@@ -123,7 +216,7 @@ void rebalanceTree(Tree **t) {
 	// 	rotacaoDuplaEsquerda(t);
 	// if(balance == -2 && right > 0)
 	// 	rotacaoSimplesEsquerda(t);
-}
+// }
 
 void antecessor(Tree **t, Tree *aux) {
 	if((*t)->dir != NULL) {
@@ -153,15 +246,15 @@ void removeItem(Tree **t, Tree **f, Record r) {
 		*t = (*t)->esq;
 		free(aux);
 
-		rebalanceTree(f);
+		// rebalanceTree(f);
 		return;
 	}
 
 	if((*t)->esq != NULL) {
 		antecessor(&(*t)->esq, *t);
 		
-		rebalanceTree(f);
-		rebalanceTree(t);
+		// rebalanceTree(f);
+		// rebalanceTree(t);
 		return;
 	}
 
@@ -169,8 +262,8 @@ void removeItem(Tree **t, Tree **f, Record r) {
 	*t = (*t)->dir;
 	free(aux);
 	
-	rebalanceTree(f);
-	rebalanceTree(t);
+	// rebalanceTree(f);
+	// rebalanceTree(t);
 }
 
 void preordem(Tree *t) {
@@ -184,7 +277,22 @@ void preordem(Tree *t) {
 void central(Tree *t) {
 	if(!(t == NULL)) {
 		central(t->esq);
-		printf("%d ", t->reg.key);
+		printf("(%d:%d)", t->reg.key, t->cor);
+
+		if(t->pai != NULL) {
+			printf(" - (pai: %d) ", t->pai->reg.key);
+
+			if(t->pai->pai != NULL) {
+				printf(" - (pai-pai: %d)", t->pai->pai->reg.key);
+
+				if(t->pai->pai->dir != NULL && t->pai->pai->dir->reg.key != t->pai->reg.key)
+					printf(" - (tio: %d)", t->pai->pai->dir->reg.key);
+				else if(t->pai->pai->esq != NULL && t->pai->pai->esq->reg.key != t->pai->reg.key)
+					printf(" - (tio: %d)", t->pai->pai->esq->reg.key);
+			}
+		}
+		printf("\n");
+
 		central(t->dir);
 	}
 }

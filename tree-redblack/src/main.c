@@ -1,57 +1,57 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+// #include <stdio.h>
+// #include <stdlib.h>
+// #include <string.h>
 
-int main(void) {
-	FILE *file;
-	char linha[10];
-	char *result;
+// int main(void) {
+// 	FILE *file;
+// 	char linha[10];
+// 	char *result;
 
-	// ==============================
-	// ESCRITA
-	// ==============================
+// 	// ==============================
+// 	// ESCRITA
+// 	// ==============================
 
-	file = fopen("arquivo.txt", "w");
+// 	file = fopen("arquivo.txt", "w");
 
-	fputs("456.551634\n", file);
-	fputs("320.117525\n", file);
-	fputs("74.682345\n", file);
-	fputs("506.254504\n", file);
+// 	fputs("456.551634\n", file);
+// 	fputs("320.117525\n", file);
+// 	fputs("74.682345\n", file);
+// 	fputs("506.254504\n", file);
 
-	char array[50];
-	double num = 264.553233;
+// 	char array[50];
+// 	double num = 264.553233;
 
-	sprintf(array, "%.6lf", num);
-	strcat(array, "\n");
+// 	sprintf(array, "%.6lf", num);
+// 	strcat(array, "\n");
 
-	fputs(array, file);
+// 	fputs(array, file);
 
-	fputs("275.001674\n", file);
-	fputs("740.643421\n", file);
+// 	fputs("275.001674\n", file);
+// 	fputs("740.643421\n", file);
 
 
-	fclose(file);
+// 	fclose(file);
 
-	// ==============================
-	// LEITURA
-	// ==============================
+// 	// ==============================
+// 	// LEITURA
+// 	// ==============================
 	
-	file = fopen("arquivo.txt", "r");
+// 	file = fopen("arquivo.txt", "r");
 
-	if(file == NULL)
-		printf("Erro ao abrir\n");
-	else {
-		while(!feof(file)) {
-			result = fgets(linha, 50, file);
+// 	if(file == NULL)
+// 		printf("Erro ao abrir\n");
+// 	else {
+// 		while(!feof(file)) {
+// 			result = fgets(linha, 50, file);
 
-			if(result)
-				printf("%s", linha);
-		}
-	}
-	fclose(file);
+// 			if(result)
+// 				printf("%s", linha);
+// 		}
+// 	}
+// 	fclose(file);
 
-	return 0;
-}
+// 	return 0;
+// }
 
 // #include <stdio.h>
 // #include <time.h>
@@ -78,38 +78,39 @@ int main(void) {
 //     return 0;
 // }
 
-// // #include "tree.h"
+#include "treeRedblack.h"
 
-// // int main() {
+int main() {
 
-// // 	system("clear");
+	system("clear");
 
-// // 	Tree *raiz;
-// // 	Record r;
+	Tree *raiz;
+	Record r;
 
-// // 	raiz = createTree();
+	raiz = createTree();
 
-// // 	int vetor[] = {8,4,15,2,6,5,12,13};
-// // 	// int vetor[] = {10,2,7,5,3,9,16,4,11,1,6,23,14};
-// // 	// int vetor[] = {78,44,67,92,22,110,16,54,23,32,37};
-// // 	int tam = sizeof(vetor)/sizeof(vetor[0]);
+	int vetor[] = {11,2,14,1,7,15,5,8,4};
+	// int vetor[] = {8,4,15,2,6,5,12,13};
+	// int vetor[] = {10,2,7,5,3,9,16,4,11,1,6,23,14};
+	// int vetor[] = {78,44,67,92,22,110,16,54,23,32,37};
+	int tam = sizeof(vetor)/sizeof(vetor[0]);
 
-// // 	Tree *aux;
+	Tree *aux;
 
-// // 	for(int i=0; i < tam; i++) {
-// // 		r.key = vetor[i];
-// // 		insertItem(&raiz, r);
-// // 	}
+	for(int i=0; i < tam; i++) {
+		r.key = vetor[i];
+		insertItem(&raiz, &raiz, r);
+	}
 
-// // 	printf("PRE ORDEN: { ");
-// // 	preordem(raiz);
+	printf("\nPRE ORDEN: { ");
+	preordem(raiz);
 
-// // 	printf("}\nCENTRAL: { ");
-// // 	central(raiz);
+	// printf("}\n\nCENTRAL: {\n");
+	// central(raiz);
 
-// // 	printf("}\nPOS ORDEN: { ");
-// // 	posordem(raiz);
-// // 	printf("}\n");
+	printf("}\nPOS ORDEN: { ");
+	posordem(raiz);
+	printf("}\n");
 
-// // 	return EXIT_SUCCESS;
-// // }
+	return EXIT_SUCCESS;
+}

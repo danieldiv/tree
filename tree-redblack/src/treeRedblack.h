@@ -18,16 +18,16 @@ struct Tree {
 	Tree *esq, *dir;
 	// int peso;
 	Tree *pai;
-	bool cor;
+	bool cor; // 1 - vermelho | 0 - preto
 };
 
 Tree* createTree();
-void insertItem(Tree **t, Record r);
+void insertItem(Tree **t, Tree **p, Record r);
 void pesquisa(Tree **t, Tree **aux, Record r);
 
 void antecessor(Tree **t, Tree *aux);
 void removeItem(Tree **t, Tree **f, Record r);
-void rebalanceTree(Tree **t);
+// void rebalanceTree(Tree **t);
 
 void preordem(Tree *t);
 void central(Tree *t);
