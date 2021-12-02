@@ -163,6 +163,8 @@ void corrigeInsersao(Tree **raiz, Tree **item) {
 				(*item) = (*item)->pai;
 				rotacaoSimplesDireita(raiz, item);
 			}
+			(*item)->pai->cor = false;
+			(*item)->pai->pai->cor = true;
 			rotacaoSimplesEsquerda(raiz, &(*item)->pai->pai);
 		}
 	}
