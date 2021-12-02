@@ -21,7 +21,8 @@ struct Tree {
 };
 
 Tree* createTree();
-void insertItem(Tree **t, Tree **p, Record r);
+void insertItem(Tree **raiz, Tree **item, Record r);
+void corrigeInsersao(Tree **raiz, Tree **item);
 void pesquisa(Tree **t, Tree **aux, Record r);
 
 void antecessor(Tree **t, Tree *aux);

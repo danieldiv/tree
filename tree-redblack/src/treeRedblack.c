@@ -40,64 +40,152 @@ void rotacaoSimplesEsquerda(Tree **raiz, Tree **x) {
 	(*x)->pai = y;
 }
 
+//item = novo
+// void insertItem(Tree **raiz, Tree **item, Record r) {
+// 	// Tree *novaRaiz = (*raiz);
+// 	// Tree *pai = NULL;
+// 	// Tree *atual = (*raiz);
+
+// 	// while(atual != NULL) {
+// 	// 	pai = atual;
+// 	// 	atual = ((*item)->reg.key < atual->reg.key) ? atual->esq : atual->dir;
+// 	// }
+
+// 	// (*item)->pai = atual;
+
+// 	// if(pai == NULL)
+// 	// 	novaRaiz = (*item);
+// 	// else if((*item)->reg.key < pai->reg.key)
+// 	// 	pai->esq = (*item);
+// 	// else {
+// 	// 	pai->dir = (*item);
+// 	// 	(*item)->esq = NULL;
+// 	// 	(*item)->dir = NULL;
+// 	// 	(*item)->cor = true;
+
+// 	// 	corrigeInsersao(&novaRaiz, item);
+// 	// }
+
+// 	if(*item == NULL) {
+// 		// system("read -p\"\nraiz == null\" continue");
+// 		printf("r: %d\n", r.key);
+// 		*item = (Tree*)malloc(sizeof(Tree));
+// 		(*item)->esq = NULL;
+// 		(*item)->dir = NULL;
+// 		(*item)->reg = r;
+		
+// 		(*item)->pai = (*raiz);
+// 		(*item)->cor = true;
+// 	} 
+// 	else {
+// 		// system("read -p\"\ninsert else\" continue");
+// 		Tree *tio = createTree();
+
+// 		if(r.key < (*raiz)->reg.key)
+// 			insertItem(raiz, &(*raiz)->esq, r);
+
+// 		if(r.key > (*raiz)->reg.key) 
+// 			insertItem(raiz, &(*raiz)->dir, r);
+
+	// 	while((*item) != (*raiz) && (*item)->pai->cor) {
+	// 		printf("loop\n");
+	// 		if((*item)->pai == (*item)->pai->pai->esq) {
+	// 			tio = (*item)->pai->pai->dir;
+
+	// 			if(tio->cor) {
+	// 				(*item)->pai->cor = false;
+	// 				tio->cor = false;
+	// 				(*item)->pai->pai->cor = true;
+	// 				(*item) = (*item)->pai->pai;
+	// 			}
+	// 			else if((*item) == (*item)->pai->dir) {
+	// 				(*item) = (*item)->pai;
+	// 				rotacaoSimplesEsquerda(raiz, item);
+	// 			}
+	// 			(*item)->pai->cor = false;
+	// 			(*item)->pai->pai->cor = true;
+	// 			rotacaoSimplesDireita(raiz, &(*item)->pai->pai);
+	// 		} else {
+	// 			if((*item)->pai == (*item)->pai->pai->dir) {
+	// 				tio = (*item)->pai->pai->esq;
+
+	// 				if(tio->cor) {
+	// 					(*item)->pai->cor = false;
+	// 					tio->cor = false;
+	// 					(*item)->pai->pai->cor = true;
+	// 					(*item) = (*item)->pai->pai;
+	// 				}
+	// 				else if((*item) == (*item)->pai->esq) {
+	// 					(*item) = (*item)->pai;
+	// 					rotacaoSimplesDireita(raiz, item);
+	// 				}
+	// 				(*item)->pai->cor = false;
+	// 				(*item)->pai->pai->cor = true;
+	// 				rotacaoSimplesEsquerda(raiz, &(*item)->pai->pai);
+	// 			}
+	// 		}
+	// 	}
+	// }
+		// (*raiz)->cor = false;
+// }
+
+void corrigeInsersao(Tree **raiz, Tree **item) {
+	Tree *tio = createTree();
+
+	while((*item) != (*raiz) && (*item)->pai->cor) {
+		printf("loop\n");
+		if((*item)->pai == (*item)->pai->pai->esq) {
+			tio = (*item)->pai->pai->dir;
+
+			if(tio->cor) {
+				(*item)->pai->cor = false;
+				tio->cor = false;
+				(*item)->pai->pai->cor = true;
+				(*item) = (*item)->pai->pai;
+			}
+			else if((*item) == (*item)->pai->dir) {
+				(*item) = (*item)->pai;
+				rotacaoSimplesEsquerda(raiz, item);
+			}
+			(*item)->pai->cor = false;
+			(*item)->pai->pai->cor = true;
+			rotacaoSimplesDireita(raiz, &(*item)->pai->pai);
+		} else if((*item)->pai == (*item)->pai->pai->dir) {
+			tio = (*item)->pai->pai->esq;
+
+			if(tio->cor) {
+				(*item)->pai->cor = false;
+				tio->cor = false;
+				(*item)->pai->pai->cor = true;
+				(*item) = (*item)->pai->pai;
+			}
+			else if((*item) == (*item)->pai->esq) {
+				(*item) = (*item)->pai;
+				rotacaoSimplesDireita(raiz, item);
+			}
+			rotacaoSimplesEsquerda(raiz, &(*item)->pai->pai);
+		}
+	}
+	(*raiz)->cor = false;
+}
+
 void insertItem(Tree **raiz, Tree **item, Record r) {
 	if(*raiz == NULL) {
 		*raiz = (Tree*)malloc(sizeof(Tree));
 		(*raiz)->esq = NULL;
 		(*raiz)->dir = NULL;
 		(*raiz)->reg = r;
-		
+
 		(*raiz)->pai = (*item);
 		(*item)->cor = true;
 	} else {
-		Tree *tio = createTree();
-
 		if(r.key < (*raiz)->reg.key)
 			insertItem(&(*raiz)->esq, raiz, r);
 
 		if(r.key > (*raiz)->reg.key) 
 			insertItem(&(*raiz)->dir, raiz, r);
-
-		while(item != raiz && (*item)->pai->cor) {
-			printf("loop\n");
-			if((*item)->pai == (*item)->pai->pai->esq) {
-				tio = (*item)->pai->pai->dir;
-
-				if(tio->cor) {
-					(*item)->pai->cor = false;
-					tio->cor = false;
-					(*item)->pai->pai->cor = true;
-					(*item) = (*item)->pai->pai;
-				}
-				else if((*item) == (*item)->pai->dir) {
-					(*item) = (*item)->pai;
-					rotacaoSimplesEsquerda(raiz, item);
-				}
-				(*item)->pai->cor = false;
-				(*item)->pai->pai->cor = true;
-				rotacaoSimplesDireita(raiz, &(*item)->pai->pai);
-			} else {
-				if((*item)->pai == (*item)->pai->pai->dir) {
-					tio = (*item)->pai->pai->esq;
-
-					if(tio->cor) {
-						(*item)->pai->cor = false;
-						tio->cor = false;
-						(*item)->pai->pai->cor = true;
-						(*item) = (*item)->pai->pai;
-					}
-					else if((*item) == (*item)->pai->esq) {
-						(*item) = (*item)->pai;
-						rotacaoSimplesDireita(raiz, item);
-					}
-					(*item)->pai->cor = false;
-					(*item)->pai->pai->cor = true;
-					rotacaoSimplesEsquerda(raiz, &(*item)->pai->pai);
-				}
-			}
-		}
-		(*raiz)->cor = false;
 	}
+	corrigeInsersao(raiz, item);
 }
 
 void pesquisa(Tree **t, Tree **aux, Record r) {
