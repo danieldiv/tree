@@ -4,118 +4,99 @@ Tree* createTree() {
 	return NULL;
 }
 
-void rotacaoSimplesDireita(Tree **t) {
-	Tree *aux;
+void rotacaoSimplesDireita(Tree **raiz, Tree **x) {
+	Tree *y;
 
-	aux = (*t)->esq;
-	(*t)->esq = aux->dir;
-	aux->dir = (*t);
-	(*t) = aux;
+	y = (*x)->esq;
+	(*x)->esq = y->dir;
+	y->dir->pai = (*x);
+	y->pai = (*x)->pai;
+
+	if((*x)->pai == NULL)
+		(*raiz) = y;
+	else if((*x) == (*x)->pai->dir)
+		(*x)->pai->dir = y;
+	else
+		(*x)->pai->esq = y;
+	y->dir = (*x);
+	(*x)->pai = y;
 }
 
-void rotacaoSimplesEsquerda(Tree **t) {
-	Tree *aux;
+void rotacaoSimplesEsquerda(Tree **raiz, Tree **x) {
+	Tree *y;
 
-	aux = (*t)->dir;
-	(*t)->dir = aux->esq;
-	aux->esq = (*t);
-	(*t) = aux;
+	y = (*x)->dir;
+	(*x)->dir = y->esq;
+	y->esq->pai = (*x);
+	y->pai = (*x)->pai;
+
+	if((*x)->pai == NULL)
+		(*raiz) = y;
+	else if((*x) == (*x)->pai->esq)
+		(*x)->pai->esq = y;
+	else
+		(*x)->pai->dir = y;
+	y->esq = (*x);
+	(*x)->pai = y;
 }
 
-void insertItem(Tree **t, Tree **p, Record r) {
-	if(*t == NULL) {
-		*t = (Tree*)malloc(sizeof(Tree));
-		(*t)->esq = NULL;
-		(*t)->dir = NULL;
-		(*t)->reg = r;
-
-		if((*p)->reg.key == r.key) {
-			(*t)->pai = createTree();
-			(*t)->cor = false;
-			(*t)->isRaiz = true;
-		} else {
-			(*t)->pai = *p;
-			(*t)->cor = true;
-			(*t)->isRaiz = false;
-		}
+void insertItem(Tree **raiz, Tree **item, Record r) {
+	if(*raiz == NULL) {
+		*raiz = (Tree*)malloc(sizeof(Tree));
+		(*raiz)->esq = NULL;
+		(*raiz)->dir = NULL;
+		(*raiz)->reg = r;
+		
+		(*item)->pai = (*raiz);
+		(*item)->cor = true;
 	} else {
-		Tree *pai = (*t);
-		Tree *avo = createTree();
 		Tree *tio = createTree();
-		Tree *item = createTree();
 
-		if(r.key < (*t)->reg.key) {
-			insertItem(&(*t)->esq, t, r);
-			item = pai->esq;
-		}
+		if(r.key < (*raiz)->reg.key)
+			insertItem(&(*raiz)->esq, raiz, r);
 
-		if(r.key > (*t)->reg.key) {
-			insertItem(&(*t)->dir, t, r);
-			item = pai->dir;
-		}
+		if(r.key > (*raiz)->reg.key) 
+			insertItem(&(*raiz)->dir, raiz, r);
 
-		while(item != pai && pai->cor && !pai->isRaiz) {
-			if(pai->pai != NULL)
-				avo = pai->pai;
+		while(item != raiz && (*item)->pai->cor) {
+			printf("loop\n");
+			if((*item)->pai == (*item)->pai->pai->esq) {
+				tio = (*item)->pai->pai->dir;
 
-			if(avo != NULL)
-				printf("avo: %d\n", avo->reg.key);
-			if(pai != NULL)
-				printf("pai: %d\n", pai->reg.key);
-			printf("item: %d\n\n", item->reg.key);
+				if(tio->cor) {
+					(*item)->pai->cor = false;
+					tio->cor = false;
+					(*item)->pai->pai->cor = true;
+					(*item) = (*item)->pai->pai;
+				}
+				else if((*item) == (*item)->pai->dir) {
+					(*item) = (*item)->pai;
+					rotacaoSimplesEsquerda(raiz, item);
+				}
+				(*item)->pai->cor = false;
+				(*item)->pai->pai->cor = true;
+				rotacaoSimplesDireita(raiz, &(*item)->pai->pai);
+			} else {
+				if((*item)->pai == (*item)->pai->pai->dir) {
+					tio = (*item)->pai->pai->esq;
 
-			if(pai != NULL) {
-				// system("read -p \"\npai nao eh nulo\" continue");
-				if(avo != NULL) {
-					// system("read -p \"\navo nao eh nulo\" continue");
-					if(pai->reg.key < avo->reg.key) {
-						tio = avo->dir;
-						// system("read -p \"\npai eh menor do que avo\" continue");
-						printf("tio: %d\n", tio->reg.key);
-
-						if(tio) {
-							if(tio->cor) {
-								// system("read -p \"\nEntrou no tio\" continue");
-								pai->cor = false;
-								tio->cor = false;
-								avo->cor = true;
-								item = avo;
-							} else if(item->reg.key > pai->reg.key) {
-								item = pai;
-								system("read -p \"\nRotacao simples esquerda dentro\" continue");
-								rotacaoSimplesEsquerda(t);
-							}
-							pai->cor = false;
-							avo->cor = true;
-
-							system("read -p \"\nRotacao simples direita fora\" continue");
-							// rotacaoSimplesDireita(t);
-						}
-					} else {
-						// system("read -p \"\npai eh maior do que avo\" continue");
-						tio = avo->esq;
-						if(tio) {
-							if(tio->cor) {
-								// system("read -p \"\nEntrou no tio\" continue");
-								pai->cor = false;
-								tio->cor = false;
-								avo->cor = true;
-								item = avo;
-							} else if(item->reg.key > pai->reg.key) {
-								item = pai;
-								system("read -p \"\nRotacao simples direita dentro\" continue");
-								rotacaoSimplesDireita(t);
-							}
-							pai->cor = false;
-							avo->cor = true;
-
-							system("read -p \"\nRotacao simples esquerda fora\" continue");
-							// rotacaoSimplesEsquerda(t);
-						}	
+					if(tio->cor) {
+						(*item)->pai->cor = false;
+						tio->cor = false;
+						(*item)->pai->pai->cor = true;
+						(*item) = (*item)->pai->pai;
 					}
+					else if((*item) == (*item)->pai->esq) {
+						(*item) = (*item)->pai;
+						rotacaoSimplesDireita(raiz, item);
+					}
+					(*item)->pai->cor = false;
+					(*item)->pai->pai->cor = true;
+					rotacaoSimplesEsquerda(raiz, &(*item)->pai->pai);
 				}
 			}
 		}
+		(*raiz)->cor = false;
 	}
 }
 
@@ -185,22 +166,7 @@ void preordem(Tree *t) {
 void central(Tree *t) {
 	if(!(t == NULL)) {
 		central(t->esq);
-		printf("(%d:%d)", t->reg.key, t->cor);
-
-		if(t->pai != NULL) {
-			printf(" - (pai: %d) ", t->pai->reg.key);
-
-			if(t->pai->pai != NULL) {
-				printf(" - (pai-pai: %d)", t->pai->pai->reg.key);
-
-				if(t->pai->pai->dir != NULL && t->pai->pai->dir->reg.key != t->pai->reg.key)
-					printf(" - (tio: %d)", t->pai->pai->dir->reg.key);
-				else if(t->pai->pai->esq != NULL && t->pai->pai->esq->reg.key != t->pai->reg.key)
-					printf(" - (tio: %d)", t->pai->pai->esq->reg.key);
-			}
-		}
-		printf("\n");
-
+		printf("%d", t->reg.key);
 		central(t->dir);
 	}
 }

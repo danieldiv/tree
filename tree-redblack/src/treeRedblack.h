@@ -18,7 +18,6 @@ struct Tree {
 	Tree *esq, *dir;
 	Tree *pai;
 	bool cor; // 1 - vermelho | 0 - preto
-	bool isRaiz;
 };
 
 Tree* createTree();
@@ -32,7 +31,10 @@ void preordem(Tree *t);
 void central(Tree *t);
 void posordem(Tree *t);
 
-void rotacaoSimplesDireita(Tree **t);
-void rotacaoSimplesEsquerda(Tree **t);
+// void rotacaoSimplesDireita(Tree **t);
+// void rotacaoSimplesEsquerda(Tree **t);
+
+void rotacaoSimplesDireita(Tree **raiz, Tree **x);
+void rotacaoSimplesEsquerda(Tree **raiz, Tree **x);
 
 #endif

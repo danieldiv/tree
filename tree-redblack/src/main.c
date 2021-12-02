@@ -95,7 +95,7 @@ int main() {
 	// int vetor[] = {78,44,67,92,22,110,16,54,23,32,37};
 	int tam = sizeof(vetor)/sizeof(vetor[0]);
 
-	Tree *aux;
+	// Tree *aux;
 
 	for(int i=0; i < tam; i++) {
 		r.key = vetor[i];
@@ -105,8 +105,8 @@ int main() {
 	printf("\nPRE ORDEN: { ");
 	preordem(raiz);
 
-	// printf("}\n\nCENTRAL: {\n");
-	// central(raiz);
+	printf("}\n\nCENTRAL: {\n");
+	central(raiz);
 
 	printf("}\n\nPOS ORDEN: { ");
 	posordem(raiz);
