@@ -47,7 +47,7 @@ void insertItem(Tree **raiz, Tree **item, Record r) {
 		(*raiz)->dir = NULL;
 		(*raiz)->reg = r;
 		
-		(*item)->pai = (*raiz);
+		(*raiz)->pai = (*item);
 		(*item)->cor = true;
 	} else {
 		Tree *tio = createTree();
@@ -166,7 +166,22 @@ void preordem(Tree *t) {
 void central(Tree *t) {
 	if(!(t == NULL)) {
 		central(t->esq);
-		printf("%d", t->reg.key);
+		printf("(%d:%d)", t->reg.key, t->cor);
+
+		if(t->pai != NULL) {
+			printf(" - (pai: %d) ", t->pai->reg.key);
+
+			if(t->pai->pai != NULL) {
+				printf(" - (pai-pai: %d)", t->pai->pai->reg.key);
+
+				if(t->pai->pai->dir != NULL && t->pai->pai->dir->reg.key != t->pai->reg.key)
+					printf(" - (tio: %d)", t->pai->pai->dir->reg.key);
+				else if(t->pai->pai->esq != NULL && t->pai->pai->esq->reg.key != t->pai->reg.key)
+					printf(" - (tio: %d)", t->pai->pai->esq->reg.key);
+			}
+		}
+		printf("\n");
+
 		central(t->dir);
 	}
 }
