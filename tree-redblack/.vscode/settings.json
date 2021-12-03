@@ -1,5 +1,8 @@
 {
     "files.associations": {
-        "stdio.h": "c"
+        "stdio.h": "c",
+        "treeredblack.h": "c",
+        "stdlib.h": "c",
+        "arvorellrb.h": "c"
     }
 }
