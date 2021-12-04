@@ -1,7 +1,10 @@
 #ifndef DEF_HEADER_H
 #define	DEF_HEADER_H
+
 #include <stdio.h>
 #include <stdlib.h>
+
+void criaArvore();
 
 void Left_Rotate(struct node *x);
 void Right_Rotate(struct node *y);
