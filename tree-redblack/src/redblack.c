@@ -23,10 +23,16 @@ void insereNo(TNoRB **arvore, TNoRB *pPai, TNoRB **pMain, int k) {
 
         if (k < (*arvore)->chave) {
             insereNo(&((*arvore)->esq), *arvore, pMain, k);
+            return;
+
             consertaRB(&((*arvore)->esq), pMain);
+            return;
         } else if (k > (*arvore)->chave) {
             insereNo(&((*arvore)->dir), *arvore, pMain, k);
+            return;
+            
             consertaRB(&((*arvore)->dir), pMain);
+            return;
         }
     }
     
