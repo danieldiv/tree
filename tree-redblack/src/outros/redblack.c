@@ -23,29 +23,29 @@ void insereNo(TNoRB **arvore, TNoRB *pPai, TNoRB **pMain, int k) {
 
         if (k < (*arvore)->chave) {
             insereNo(&((*arvore)->esq), *arvore, pMain, k);
-            return;
+            // return;
 
             consertaRB(&((*arvore)->esq), pMain);
             return;
         } else if (k > (*arvore)->chave) {
             insereNo(&((*arvore)->dir), *arvore, pMain, k);
-            return;
-            
+            // return;
+
             consertaRB(&((*arvore)->dir), pMain);
             return;
         }
+        // return;
     }
     
     if (*arvore == *pMain)
             (*arvore)->cor = BLACK;
-
 }
 
 TNoRB *avo(TNoRB *arvore) {
     if ((arvore != NULL) && (arvore->pai != NULL))
             return (arvore->pai)->pai;
     else
-        return NULL;
+        return(NULL);
 }
 
 TNoRB *tio(TNoRB *arvore) {
@@ -184,7 +184,7 @@ void inOrder(TNoRB *raiz) {
     if (raiz == NULL) return;
 
     inOrder(raiz->esq);
-    printf("%d ", raiz->chave);
+    printf("%d:%d\n", raiz->chave, raiz->cor);
     inOrder(raiz->dir);
 }
 

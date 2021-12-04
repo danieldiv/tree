@@ -47,40 +47,25 @@
 // void corrigeInsersao(Tree **raiz, Tree **item) {
 // 	Tree *tio = createTree();
 
-// 	printf("entrou na correcao\n");
 // 	while((*item) != (*raiz) && (*item)->pai->cor) {
 // 		printf("loop\n");
 
-// 		if((*item)->pai == NULL) {
-// 			printf("pai null\n");
+// 		if((*item)->pai == NULL)
 // 			return;
-// 		} else {
-// 			printf("pai normal\n");
-// 		}
 
-// 		if((*item)->pai->pai == NULL) {
-// 			printf("avo null\n");
+// 		if((*item)->pai->pai == NULL)
 // 			return;
-// 		} else {
-// 			printf("avo normal\n");
-// 		}
-			
 
 // 		if((*item)->pai == (*item)->pai->pai->esq) {
-// 			printf("primeiro if\n");
 // 			tio = (*item)->pai->pai->dir;
 
-// 			printf("antes do if\n");
 // 			if(tio->cor) {
-// 				printf("dentro do if\n");
 // 				(*item)->pai->cor = false;
 // 				tio->cor = false;
 // 				(*item)->pai->pai->cor = true;
 // 				(*item) = (*item)->pai->pai;
-// 				printf("finalizou itens do if\n");
 // 			}
 // 			else if((*item) == (*item)->pai->dir) {
-// 				printf("else if\n");
 // 				(*item) = (*item)->pai;
 
 // 				if((*item)->dir != NULL && (*raiz)->pai == NULL)
@@ -88,49 +73,23 @@
 // 				else
 // 					return;
 // 			}
-// 			printf("depois do else if: %d\n", (*item)->reg.key);
-
-// 			// if((*item)->pai == NULL) {
-// 			// 	printf("depois do else if pai: null\n");
-// 			// } else {
-// 			// 	printf("depois do else if pai: %d\n", (*item)->pai->reg.key);
-// 			// }
-			
 // 			if((*item)->pai != NULL) {
 // 				(*item)->pai->cor = false;
-// 				printf("depois do else if pai: %d\n", (*item)->pai->reg.key);
 				
-// 				if((*item)->pai->pai != NULL) {
+// 				if((*item)->pai->pai != NULL)
 // 					(*item)->pai->pai->cor = true;
-// 					printf("depois do else if pai: %d\n", (*item)->pai->pai->reg.key);
-// 				} else {
-// 					printf("avo null\n");
-// 				}
-// 			} else {
-// 				printf("pai null\n");
 // 			}
-
-// 			printf("finalizou itens depois do if\n");
-
-// 			// if((*item)->pai->pai == NULL) {
-// 			// 	printf("pai do pai null\n");
-// 			// } else {
-// 			// 	printf("pai do pai normal: %d\n", (*item)->pai->pai->reg.key);
-// 			// }
 
 // 			if((*item)->pai != NULL) {
 // 				if((*item)->pai->pai->esq != NULL && (*raiz)->pai == NULL) {
-// 					printf("fazendo rotacao fora direita\n");
 // 					rotacaoSimplesDireita(raiz, &(*item)->pai->pai);
 // 				}
 // 				else {
-// 					printf("retornando\n");
 // 					return;
 // 				}
 // 			} else {
 // 				return;
 // 			}
-// 			printf("passou a rotacao 1\n");
 // 		} else {
 // 			printf("entrou no else 2\n");
 // 			tio = (*item)->pai->pai->esq;
@@ -156,63 +115,34 @@
 // 				rotacaoSimplesEsquerda(raiz, &(*item)->pai->pai);
 // 			else
 // 				return;
-// 			printf("passou a rotacao 2\n");
 // 		} 
-// 		printf("passou do if e else\n");
 // 	}
-// 	printf("finalizou a correcao\n");
 // 	(*raiz)->cor = false;
-// 	printf("mudou a cor\n");
+// 	return;
 // }
 
-// void insertItem(Tree **item, Tree **raiz, Record r) {
-// 	printf("\ninicio insercao (r): %d\n", r.key);
-// 	if(*item == NULL)
-// 		printf("item nulo\n");
-// 	else {
-// 		printf("item existente: %d\n", (*item)->reg.key);
-		
-// 		if((*item)->esq != NULL)
-// 			printf("item esq: %d\n", (*item)->esq->reg.key);
-// 		if((*item)->dir != NULL)
-// 			printf("item dir: %d\n", (*item)->dir->reg.key);
-// 	}
-		
-// 	system("read -p\"\nparada\" continue");
+// void insertItem(Tree **item, Tree **raiz, Record r) {		
 // 	if(*item == NULL) {
-// 		printf("inserindo %d\n", r.key);
-
-// 		if(*raiz == NULL) {
-// 			printf("\nraiz eh nula\n\n");
-// 			*item = (Tree*)malloc(sizeof(Tree));
-// 			(*item)->pai = NULL;
-			
-// 		} else {
-// 			*item = (Tree*)malloc(sizeof(Tree));
-// 			(*item)->pai = (*raiz);
-// 		}
+// 		*item = (Tree*)malloc(sizeof(Tree));
+// 		(*item)->pai = (*raiz);
 // 		(*item)->esq = NULL;
 // 		(*item)->dir = NULL;
 // 		(*item)->reg = r;
 // 		(*item)->cor = true;
-			
-
-		
 // 	} else {
 // 		if(r.key < (*item)->reg.key) {
-// 			printf("%d < %d\n", r.key, (*item)->reg.key);
 // 			insertItem(&(*item)->esq, item, r);
+// 			// return;
 // 		}
 
 // 		if(r.key > (*item)->reg.key) {
-// 			printf("%d > %d\n", r.key, (*item)->reg.key);
 // 			insertItem(&(*item)->dir, item, r);
+// 			// return;
 // 		}
 			
-// 	}
-// 		printf("correcaoItem: %d-%d\n", (*item)->reg.key, (*item)->cor);
-// 		printf("correcaoRaiz: %d-%d\n", (*raiz)->reg.key, (*raiz)->cor);
 // 		corrigeInsersao(raiz, item);
+// 	}
+// 	return;
 // }
 
 // void pesquisa(Tree **t, Tree **aux, Record r) {
@@ -281,22 +211,21 @@
 // void central(Tree *t) {
 // 	if(!(t == NULL)) {
 // 		central(t->esq);
-// 		printf("(%d:%d)", t->reg.key, t->cor);
+// 		printf("%d ", t->reg.key);
+//         // printf("(%d:%d)", t->reg.key, t->cor);
 
-// 		if(t->pai != NULL) {
-// 			printf(" - (pai: %d) ", t->pai->reg.key);
+// 		// if(t->pai != NULL) {
+// 		// 	printf(" - (pai: %d) ", t->pai->reg.key);
 
-// 			if(t->pai->pai != NULL) {
-// 				printf(" - (pai-pai: %d)", t->pai->pai->reg.key);
+// 		// 	if(t->pai->pai != NULL) {
+// 		// 		printf(" - (pai-pai: %d)", t->pai->pai->reg.key);
 
-// 				if(t->pai->pai->dir != NULL && t->pai->pai->dir->reg.key != t->pai->reg.key)
-// 					printf(" - (tio: %d)", t->pai->pai->dir->reg.key);
-// 				else if(t->pai->pai->esq != NULL && t->pai->pai->esq->reg.key != t->pai->reg.key)
-// 					printf(" - (tio: %d)", t->pai->pai->esq->reg.key);
-// 			}
-// 		}
-// 		printf("\n");
-
+// 		// 		if(t->pai->pai->dir != NULL && t->pai->pai->dir->reg.key != t->pai->reg.key)
+// 		// 			printf(" - (tio: %d)", t->pai->pai->dir->reg.key);
+// 		// 		else if(t->pai->pai->esq != NULL && t->pai->pai->esq->reg.key != t->pai->reg.key)
+// 		// 			printf(" - (tio: %d)", t->pai->pai->esq->reg.key);
+// 		// 	}
+// 		// }
 // 		central(t->dir);
 // 	}
 // }

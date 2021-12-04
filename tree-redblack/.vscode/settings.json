@@ -3,6 +3,7 @@
         "stdio.h": "c",
         "treeredblack.h": "c",
         "stdlib.h": "c",
-        "arvorellrb.h": "c"
+        "arvorellrb.h": "c",
+        "redblack.h": "c"
     }
 }

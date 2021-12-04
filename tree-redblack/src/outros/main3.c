@@ -1,20 +1,36 @@
-// #include <stdio.h>
-// #include <stdlib.h>
+// #include "treeRedblack.h"
 
 // int main() {
-//     printf("Hello world\n");
 //     return 0;
 // }
 
-#include "rb.h"
+/**
+    redblack_tree_main.c
+    Purpose: A simple implementation of a Red Black Tree in C, windows edition
+	see chapter 13 of Introduction to Algorithms 3rd edition - Cormen, Leiserson, Rivest, Stein.
+	
+	A red-black tree is a binary tree that satisfies the following red-black properties:
+	1. Every node is either red or black.
+	2. The root is black.
+	3. Every leaf (NIL) is black.
+	4. If a node is red, then both its children are black.
+	5. For each node, all simple paths from the node to descendant leaves contain the
+	same number of black nodes.
+    
+    @author George Papageorgakis
+    @version 1.0 01/2012
+*/
+// #include "def_header.h"
+#include "treeRedblack.h"
 
 struct node *temp, *nill, *root;
 
 int main(){
-    system("clear");
-
-    double data = 0, chk = 0;
-
+    int data = 0, chk = 0;
+    char ch = ' ';
+    // HANDLE  hConsole;
+    // hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+    //initialiazation  of nill (and root)
     nill        =(struct node *) malloc(sizeof(struct node));
     nill->color = black;
     nill->LC    = NULL;
@@ -23,35 +39,39 @@ int main(){
     nill->key   = 0;
     root        = nill;
 
-    int vetor[] = {11,2,14,1,7,15,5,8,4};
-    int tam = sizeof(vetor)/sizeof(vetor[0]);
-    int cont = 0;
+   	
 
-    for(int i=0; i < tam; i++) {
-        data = vetor[i];
-        if ((temp = (struct node *) malloc(sizeof(struct node))) != NULL){
-                temp->P     = nill;
-                temp->LC    = nill;
-                temp->RC    = nill;
-                temp->key   = data;
-                temp->color = black;
-                chk         = check(root,data,0);
-            if(chk == 0){
-                rb_insert(root, nill, temp);
-            }
-            else{
-                printf("Node already registered: %lf\n", data);   fflush(stdout);
-                free(temp);
-            }
-            cont++;
-        }
-    }
-    printf("central   { ");
-    central(root);
-    printf("}\npre ordem { ");
-    preordem(root);
-	printf("}\ncont total : %d\n", cont);
 
+    // while(ch != '0'){
+        // SetConsoleTextAttribute(hConsole, 7);
+        // printf("(1)Insert Nodes  (2)In-order Print (3)Tree Print (4)Delete Node (0)Quit :\n");fflush(stdout);
+        // ch = getchar();
+        // if(ch == '1'){
+            int vetor[] = {11,2,14,1,7,15,5,8,4};
+            int tam = sizeof(vetor)/sizeof(vetor[0]);
+
+            for(int i=0; i < tam; i++) {
+                printf("Data:\n");  fflush(stdout);
+                // scanf("%d", &data);
+                data = vetor[i];
+                if ((temp = (struct node *) malloc(sizeof(struct node))) != NULL){
+                    temp->P     = nill;
+                    temp->LC    = nill;
+                    temp->RC    = nill;
+                    temp->key   = data;
+                    temp->color = black;
+                    chk         = check(root,data,0);
+                    if(chk == 0){
+                        rb_insert(root, nill, temp);
+                    }
+                    else{
+                        printf("Node already registered.\n");   fflush(stdout);
+                        free(temp);
+                    }
+                }
+                preordem(root);
+                // central(root);
+            }
     return 0;
 }
 
@@ -331,91 +351,90 @@ void search_delete(struct node *aux, int z){
 
 
 ////////////////////////////////////////////////////////////////////////////////
-void io_print(struct node *aux, struct node *auxnill){
-    // HANDLE  hConsole;
-    // hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-    // if(aux != auxnill){
-    //     io_print(aux->LC, auxnill);
-    //     if (aux->color == red){
-    //         SetConsoleTextAttribute(hConsole, 12);
-    //         printf("%d,", aux->key); fflush(stdout);
-    //     }
-    //     if (aux->color == black){
-    //         SetConsoleTextAttribute(hConsole, 8);
-    //         printf("%d,", aux->key); fflush(stdout);
-    //     }
-    //     SetConsoleTextAttribute(hConsole, 7);
-    //     io_print(aux->RC, auxnill);
-    // }
-}
-
-void preordem(struct node *raiz) {
-    if(raiz != NULL) {
-        printf("%d ", raiz->key);
-        preordem(raiz->LC);
-        preordem(raiz->RC);
+void preordem(struct node *aux) {
+    if(aux != NULL) {
+        printf("%d ", aux->key);
+        preordem(aux->LC);
+        preordem(aux->RC);
     }
 }
 
-void central(struct node *raiz) {
-    if(raiz != NULL) {
-        central(raiz->LC);
-        printf("%d ", raiz->key);
-        central(raiz->RC);
+void central(struct node *aux) {
+    if(aux != NULL) {
+        central(aux->LC);
+        printf("%d ", aux->key);
+        central(aux->RC);
     }
 }
+// void io_print(struct node *aux, struct node *auxnill){
+//     // HANDLE  hConsole;
+//     // hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+//     if(aux != auxnill){
+//         io_print(aux->LC, auxnill);
+//         if (aux->color == red){
+//             SetConsoleTextAttribute(hConsole, 12);
+//             printf("%d,", aux->key); fflush(stdout);
+//         }
+//         if (aux->color == black){
+//             SetConsoleTextAttribute(hConsole, 8);
+//             printf("%d,", aux->key); fflush(stdout);
+//         }
+//         SetConsoleTextAttribute(hConsole, 7);
+//         io_print(aux->RC, auxnill);
+//     }
+// }
 
 //print as a tree
-// void tree_print(struct node *aux, struct node *nill){
-    // HANDLE  hConsole;
-    // hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-    // if(aux != nill){
-    //     if(aux->RC != nill) {
-    //         if (aux->color == black) {
-    //             SetConsoleTextAttribute(hConsole, 8);
-    //             printf("%d", aux->key); fflush(stdout);
-    //             printf("->RC:");    	fflush(stdout);
-    //         }
-    //         else if (aux->color == red){
-    //             SetConsoleTextAttribute(hConsole, 12);
-    //             printf("%d", aux->key); fflush(stdout);
-    //             printf("->RC:");    	fflush(stdout);
-    //         }
-    //         if (aux->RC->color == black){
-    //             SetConsoleTextAttribute(hConsole, 8);
-    //             printf("%d\n", aux->RC->key);    fflush(stdout);
-    //         }
-    //         else if (aux->RC->color == red){
-    //             SetConsoleTextAttribute(hConsole, 12);
-    //             printf("%d\n", aux->RC->key);    fflush(stdout);
-    //         }
-    //         SetConsoleTextAttribute(hConsole, 7);
-    //         tree_print(aux->RC, nill);
-    //     }
-    //     if(aux->LC != nill){
-    //         if (aux->color == black){
-    //             SetConsoleTextAttribute(hConsole, 8);
-    //             printf("%d", aux->key); fflush(stdout);
-    //             printf("->LC:");    fflush(stdout);
-    //         }
-    //         else if (aux->color == red){
-    //             SetConsoleTextAttribute(hConsole, 12);
-    //             printf("%d", aux->key);  fflush(stdout);
-    //             printf("->LC:");    fflush(stdout);
-    //         }
-    //         if (aux->LC->color == black){
-    //             SetConsoleTextAttribute(hConsole, 8);
-    //             printf("%d\n",  aux->LC->key);  fflush(stdout);
-    //         }
-    //         else if (aux->LC->color == red){
-    //             SetConsoleTextAttribute(hConsole, 12);
-    //             printf("%d\n", aux->LC->key);   fflush(stdout);
-    //         }
-    //         SetConsoleTextAttribute(hConsole, 7);
-    //         tree_print(aux->LC,nill);
-    //     }
-    // }
-// }
+void tree_print(struct node *aux, struct node *nill){
+//     // HANDLE  hConsole;
+//     // hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+//     if(aux != nill){
+//         if(aux->RC != nill) {
+//             if (aux->color == black) {
+//                 SetConsoleTextAttribute(hConsole, 8);
+//                 printf("%d", aux->key); fflush(stdout);
+//                 printf("->RC:");    	fflush(stdout);
+//             }
+//             else if (aux->color == red){
+//                 SetConsoleTextAttribute(hConsole, 12);
+//                 printf("%d", aux->key); fflush(stdout);
+//                 printf("->RC:");    	fflush(stdout);
+//             }
+//             if (aux->RC->color == black){
+//                 SetConsoleTextAttribute(hConsole, 8);
+//                 printf("%d\n", aux->RC->key);    fflush(stdout);
+//             }
+//             else if (aux->RC->color == red){
+//                 SetConsoleTextAttribute(hConsole, 12);
+//                 printf("%d\n", aux->RC->key);    fflush(stdout);
+//             }
+//             SetConsoleTextAttribute(hConsole, 7);
+//             tree_print(aux->RC, nill);
+//         }
+//         if(aux->LC != nill){
+//             if (aux->color == black){
+//                 SetConsoleTextAttribute(hConsole, 8);
+//                 printf("%d", aux->key); fflush(stdout);
+//                 printf("->LC:");    fflush(stdout);
+//             }
+//             else if (aux->color == red){
+//                 SetConsoleTextAttribute(hConsole, 12);
+//                 printf("%d", aux->key);  fflush(stdout);
+//                 printf("->LC:");    fflush(stdout);
+//             }
+//             if (aux->LC->color == black){
+//                 SetConsoleTextAttribute(hConsole, 8);
+//                 printf("%d\n",  aux->LC->key);  fflush(stdout);
+//             }
+//             else if (aux->LC->color == red){
+//                 SetConsoleTextAttribute(hConsole, 12);
+//                 printf("%d\n", aux->LC->key);   fflush(stdout);
+//             }
+//             SetConsoleTextAttribute(hConsole, 7);
+//             tree_print(aux->LC,nill);
+//         }
+//     }
+}
 
 //check in case of overwrite
 int check(struct node *aux, int z, int chk){
@@ -430,3 +449,48 @@ int check(struct node *aux, int z, int chk){
         chk = 1;
     return chk;
 }
+
+// #include "redblack.h"
+// #include "treeRedblack.h"
+// #include <stdio.h>
+// #include <stdlib.h>
+
+// int main() {
+//     system("clear");
+
+//     // TNoRB *arvore = NULL;
+//     // int vetor[] = {11,2,14,1,7,15,5,8,4};
+// 	// int tam = sizeof(vetor)/sizeof(vetor[0]);
+
+// 	// for(int i=0; i < tam; i++) {
+//     //     insereNo(&arvore, NULL, &arvore, vetor[i]);
+// 	// }
+//     // printf("pre ordem: { ");
+//     // preOrder(arvore);
+//     // printf("}\ncentral: { ");
+//     // inOrder(arvore);
+//     // printf("}\n");
+
+//     Tree *raiz;
+// 	Record r;
+
+// 	raiz = createTree();
+
+// 	int vetor[] = {11,2,14,1,7,15,5,8,4};
+// 	int tam = sizeof(vetor)/sizeof(vetor[0]);
+
+// 	for(int i=0; i < tam; i++) {
+// 		r.key = vetor[i];
+// 		insertItem(&raiz, &raiz, r);
+// 	}
+
+//     printf("\npre ordem: { ");
+//     preordem(raiz);
+//     printf("}\ncentral: { ");
+//     central(raiz);
+//     printf("}\npos ordem: { ");
+//     posordem(raiz);
+//     printf("}\n");
+
+//     return 0;
+// }
